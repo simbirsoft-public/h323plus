@@ -99,9 +99,6 @@ H46018TransportThread::H46018TransportThread(H323EndPoint & ep, H46018Transport 
 
     isConnected = false;
     m_keepAliveInterval = 19;
-
-    // Start the Thread
-    Resume();
 }
 
 H46018TransportThread::~H46018TransportThread()
@@ -434,7 +431,8 @@ void H46018Handler::SocketThread(PThread &,  H323_INT)
 
     if (transport->Connect(m_callId)) {
         PTRACE(3, "H46018\tConnected to " << transport->GetRemoteAddress());
-        new H46018TransportThread(EP, transport);
+        H46018TransportThread * transportThread = new H46018TransportThread(EP, transport);
+        transportThread->Resume();
         lastCallIdentifer = m_callId.AsString();
     } else {
         PTRACE(3, "H46018\tCALL ABORTED: Failed connect to " << transport->GetRemoteAddress());
@@ -1413,7 +1411,7 @@ PBoolean H46019UDPSocket::DoPseudoRead(int & selectStatus)
        return false;
 
    if (rtpSocket) {
-	   while (!m_shutDown && m_multiBuffer == 0)
+           while (!m_shutDown && m_multiBuffer == 0)
           selectBlock.Delay(3);
    }
 

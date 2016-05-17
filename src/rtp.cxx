@@ -1469,9 +1469,9 @@ PBoolean RTP_UDP::Open(PIPSocket::Address _localAddress,
 #ifdef P_QOS
                    RTP_QOS * rtpQos
 #else
-				   RTP_QOS *
+                   RTP_QOS *
 #endif
-				   )
+                   )
 {
   // save local address 
   localAddress = _localAddress;

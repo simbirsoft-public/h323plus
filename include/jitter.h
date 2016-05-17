@@ -71,9 +71,9 @@ class RTP_JitterBuffer : public PObject
     void UseImmediateReduction(PBoolean state) { doJitterReductionImmediately = state; }
 
     /**Reset Firt write
-		This is used when redirecting media flows to ensure Jitter buffer is not exceeded.
+        This is used when redirecting media flows to ensure Jitter buffer is not exceeded.
       */
-	void ResetFirstWrite();
+    void ResetFirstWrite();
 
     /**Read a data frame from the RTP channel.
        Any control frames received are dispatched to callbacks and are not
