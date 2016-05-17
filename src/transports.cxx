@@ -1846,7 +1846,8 @@ PBoolean H323TransportTCP::SecureConnect()
                     PTRACE(1, "TLS\tSyscall error in SSL_connect() errno=" << errno);
                     switch (errno) {
                         case 0:
-                            ret = 1; // done
+                            // done
+                            ret = 1;
                             break;
                         case EAGAIN:
                             break;
@@ -2048,8 +2049,9 @@ H323TransportUDP::H323TransportUDP(H323EndPoint & ep,
   : H323TransportIP(ep, binding, remote_port)
 #endif
 {
+  // For backward compatibility
   if (remotePort == 0)
-    remotePort = H225_RAS::DefaultRasUdpPort; // For backward compatibility
+    remotePort = H225_RAS::DefaultRasUdpPort;
 
   promiscuousReads = AcceptFromRemoteOnly;
 
@@ -2182,8 +2184,8 @@ PBoolean H323TransportUDP::ReadPDU(PBYTEArray & pdu)
             goto accept;
         }
         break;
-
-      default : //AcceptFromAny
+      //AcceptFromAny
+      default :
       accept:
         lastReceivedAddress = H323TransportAddress(address, port);
         return TRUE;
@@ -2392,7 +2394,8 @@ PBoolean H323TransportUDP::DiscoverGatekeeper(H323Gatekeeper & gk,
 
       struct ip_mreq mreq;
       mreq.imr_multiaddr = MulticastRasAddress;
-      mreq.imr_interface = localAddress;    // ip address of host
+      // ip address of host
+      mreq.imr_interface = localAddress;
       if (socket->SetOption(IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq), IPPROTO_IP)) {
         // Adjust the PDU to reflect the interface we are writing to.
         SetUpTransportPDU(grq.m_rasAddress, TRUE);

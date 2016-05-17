@@ -143,9 +143,11 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-BYTE H323EndPoint::defaultT35CountryCode    = 9; // Country code for Australia
+// Country code for Australia
+BYTE H323EndPoint::defaultT35CountryCode    = 9;
 BYTE H323EndPoint::defaultT35Extension      = 0;
-WORD H323EndPoint::defaultManufacturerCode  = 61; // Allocated by Australian Communications Authority, Oct 2000;
+// Allocated by Australian Communications Authority, Oct 2000;
+WORD H323EndPoint::defaultManufacturerCode  = 61;
 
 //////////////////////////////////////////////////////////////////////////////////////
 // TLS Context (This may be moved later on to its own file) - SH
@@ -256,8 +258,10 @@ H323_TLSContext::H323_TLSContext()
     }
 
     m_context = SSL_CTX_new(SSLv23_method());
-    SSL_CTX_set_options(m_context, SSL_OP_NO_SSLv2);  // remove unsafe SSLv2
-    SSL_CTX_set_mode(m_context, SSL_MODE_AUTO_RETRY); // handle re-negotiations automatically
+    // remove unsafe SSLv2
+    SSL_CTX_set_options(m_context, SSL_OP_NO_SSLv2);
+    // handle re-negotiations automatically
+    SSL_CTX_set_mode(m_context, SSL_MODE_AUTO_RETRY);
 
 #if PTLIB_VER < 2120
     context = m_context;
@@ -587,33 +591,58 @@ H323EndPoint::H323EndPoint()
     soundChannelRecordDevice(PSoundChannel::GetDefaultDevice(PSoundChannel::Recorder)),
 #endif
 #endif
-    signallingChannelConnectTimeout(0, 10, 0), // seconds
-    signallingChannelCallTimeout(0, 0, 1),  // Minutes
-    controlChannelStartTimeout(0, 0, 2),    // Minutes
-    endSessionTimeout(0, 3),                // Seconds
-    masterSlaveDeterminationTimeout(0, 30), // Seconds
-    capabilityExchangeTimeout(0, 30),       // Seconds
-    logicalChannelTimeout(0, 30),           // Seconds
-    requestModeTimeout(0, 30),              // Seconds
-    roundTripDelayTimeout(0, 10),           // Seconds
-    roundTripDelayRate(0, 0, 1),            // Minutes
-    noMediaTimeout(0, 0, 5),                // Minutes
-    gatekeeperRequestTimeout(0, 5),         // Seconds
-    rasRequestTimeout(0, 3),                // Seconds
-    registrationTimeToLive(0, 0, 1)         // Minutes
+    // seconds
+    signallingChannelConnectTimeout(0, 10, 0),
+    // Minutes
+    signallingChannelCallTimeout(0, 0, 1),
+    // Minutes
+    controlChannelStartTimeout(0, 0, 2),
+    // Seconds
+    endSessionTimeout(0, 3),
+    // Seconds
+    masterSlaveDeterminationTimeout(0, 30),
+    // Seconds
+    capabilityExchangeTimeout(0, 30),      
+    // Seconds
+    logicalChannelTimeout(0, 30),
+    // Seconds
+    requestModeTimeout(0, 30),
+    // Seconds
+    roundTripDelayTimeout(0, 10),
+    // Minutes
+    roundTripDelayRate(0, 0, 1),
+    // Minutes
+    noMediaTimeout(0, 0, 5),
+    // Seconds
+    gatekeeperRequestTimeout(0, 5),
+    // Seconds
+    rasRequestTimeout(0, 3),
+    // Minutes
+    registrationTimeToLive(0, 0, 1)
 
 #ifdef H323_H450
     ,
-    callTransferT1(0,10),                   // Seconds
-    callTransferT2(0,10),                   // Seconds
-    callTransferT3(0,10),                   // Seconds
-    callTransferT4(0,10),                   // Seconds
-    callIntrusionT1(0,30),                  // Seconds
-    callIntrusionT2(0,30),                  // Seconds
-    callIntrusionT3(0,30),                  // Seconds
-    callIntrusionT4(0,30),                  // Seconds
-    callIntrusionT5(0,10),                  // Seconds
-    callIntrusionT6(0,10),                   // Seconds
+    // Seconds
+    callTransferT1(0,10),
+    // Seconds
+    callTransferT2(0,10),
+    // Seconds
+    callTransferT3(0,10),
+    // Seconds
+    callTransferT4(0,10),
+    // Seconds
+    callIntrusionT1(0,30),
+    // Seconds
+    callIntrusionT2(0,30),
+    // Seconds
+    callIntrusionT3(0,30),
+    // Seconds
+    callIntrusionT4(0,30),
+    // Seconds
+    callIntrusionT5(0,10),
+    // Seconds
+    callIntrusionT6(0,10),
+    // Seconds
     nextH450CallIdentity(0)
 #endif
 
@@ -646,8 +675,10 @@ H323EndPoint::H323EndPoint()
 #endif
 
 #ifdef H323_AUDIO_CODECS
-  minAudioJitterDelay = 50;  // milliseconds
-  maxAudioJitterDelay = 250;  // milliseconds
+  // milliseconds
+  minAudioJitterDelay = 50;
+  // milliseconds
+  maxAudioJitterDelay = 250;
 #endif
 
   autoCallForward = true;
@@ -663,22 +694,27 @@ H323EndPoint::H323EndPoint()
   useQ931Display = false;
 
 #ifdef H323_H450
-  callIntrusionProtectionLevel = 3; //H45011_CIProtectionLevel::e_fullProtection;
+  //H45011_CIProtectionLevel::e_fullProtection;
+  callIntrusionProtectionLevel = 3;
 #endif
 
 #ifdef H323_AUDIO_CODECS
-  defaultSilenceDetection = H323AudioCodec::NoSilenceDetection;  //AdaptiveSilenceDetection; TODO Till Encryption fixed
+  //AdaptiveSilenceDetection; TODO Till Encryption fixed
+  defaultSilenceDetection = H323AudioCodec::NoSilenceDetection;
 #endif
 
   defaultSendUserInputMode = H323Connection::SendUserInputAsString;
 
   terminalType = e_TerminalOnly;
-  initialBandwidth = 100000; // Standard 10base LAN in 100's of bits/sec
+  // Standard 10base LAN in 100's of bits/sec
+  initialBandwidth = 100000;
   clearCallOnRoundTripFail = FALSE;
 
-  t35CountryCode   = defaultT35CountryCode;   // Country code for Australia
+  // Country code for Australia
+  t35CountryCode   = defaultT35CountryCode;
   t35Extension     = defaultT35Extension;
-  manufacturerCode = defaultManufacturerCode; // Allocated by Australian Communications Authority, Oct 2000
+  // Allocated by Australian Communications Authority, Oct 2000
+  manufacturerCode = defaultManufacturerCode;
 
   rtpIpPorts.current = rtpIpPorts.base = 5001;
   rtpIpPorts.max = 5999;
@@ -772,8 +808,10 @@ H323EndPoint::H323EndPoint()
   disableH460 = false;
 
 #ifdef H323_H46017
-  m_tryingH46017 = false;           // set to true when attempting H.460.17
-  m_registeredWithH46017 = false;   // set to true when gatekeeper accepts it
+  // set to true when attempting H.460.17
+  m_tryingH46017 = false;
+  // set to true when gatekeeper accepts it
+  m_registeredWithH46017 = false;
   m_h46017Transport = NULL;
 #endif
 
@@ -1129,8 +1167,10 @@ void H323EndPoint::AddAllExtendedVideoCapabilities(PINDEX descriptorNum,
 {
   H323ExtendedVideoCapability::AddAllCapabilities(capabilities, descriptorNum, simultaneous);
 }
-#endif  // H323_H239
-#endif  // H323_VIDEO
+// H323_H239
+#endif
+// H323_VIDEO
+#endif
 
 void H323EndPoint::RemoveCapabilities(const PStringArray & codecNames)
 {
@@ -1250,7 +1290,8 @@ PBoolean H323EndPoint::InternalRegisterGatekeeper(H323Gatekeeper * gk, PBoolean 
     // RRQ was rejected continue trying
     gatekeeper = gk;
   }
-  else // Only stop listening if the GRQ was rejected
+  // Only stop listening if the GRQ was rejected
+  else
     delete gk;
 
   return FALSE;
@@ -1281,7 +1322,8 @@ PBoolean H323EndPoint::RemoveGatekeeper(int reason)
 
   ClearAllCalls();
 
-  if (gatekeeper->IsRegistered()) // If we are registered send a URQ
+  // If we are registered send a URQ
+  if (gatekeeper->IsRegistered())
     ok = gatekeeper->UnregistrationRequest(reason);
 
   delete gatekeeper;
@@ -1309,7 +1351,8 @@ void H323EndPoint::SetGatekeeperPassword(const PString & password)
 
   if (gatekeeper != NULL) {
     gatekeeper->SetPassword(gatekeeperPassword);
-    if (gatekeeper->IsRegistered()) // If we are registered send a URQ
+    // If we are registered send a URQ
+    if (gatekeeper->IsRegistered())
       gatekeeper->UnregistrationRequest(H225_UnregRequestReason::e_reregistrationRequired);
     InternalRegisterGatekeeper(gatekeeper, TRUE);
   }
@@ -1677,7 +1720,8 @@ PBoolean H323EndPoint::StartListener(H323Listener * listener)
   // stopping the listener thread. This is good - it means that the 
   // listener Close function will appear to have stopped the thread
   if (!listener->Open()) {
-    listener->Resume(); // set the thread running so we can delete it later
+    // set the thread running so we can delete it later
+    listener->Resume();
     return FALSE;
   }
 
@@ -2195,13 +2239,15 @@ PBoolean H323EndPoint::ParsePartyName(const PString & _remoteParty,
 
       // Get the port if provided
       for (PINDEX i = 0; i < person.sport.GetSize(); i++) {
-        if (person.sport[i] != 1503) { // Dont use the T.120 port
+	// Dont use the T.120 port
+        if (person.sport[i] != 1503) {
           address = H323TransportAddress(person.sipAddress, person.sport[i]);
           break;
         }
       }
 
-      alias = PString::Empty(); // No alias for ILS lookup, only host
+      // No alias for ILS lookup, only host
+      alias = PString::Empty();
       return TRUE;
 #else
       return FALSE;
@@ -2319,8 +2365,10 @@ PBoolean H323EndPoint::ParsePartyName(const PString & _remoteParty,
   // We do not have a gk and user did not explicitly supply a host, so lets
   // do a check to see if it is a valid IP address or hostname if not registered.
   if (alias.FindOneOf("$.:[") != P_MAX_INDEX && (gatekeeper == NULL || 
-      alias.FindRegEx(PRegularExpression("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$", PRegularExpression::Extended)) != P_MAX_INDEX || // IPv4
-     (alias.Left(1) == "[" && alias.Right(1) == "]" && alias.FindRegEx(PRegularExpression("\\]:[0-9]+$", PRegularExpression::Extended)) != P_MAX_INDEX))) {  // IPv6
+      // IPv4
+      alias.FindRegEx(PRegularExpression("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$", PRegularExpression::Extended)) != P_MAX_INDEX ||
+      // IPv6
+      (alias.Left(1) == "[" && alias.Right(1) == "]" && alias.FindRegEx(PRegularExpression("\\]:[0-9]+$", PRegularExpression::Extended)) != P_MAX_INDEX))) {  
        H323TransportAddress test = alias;
        PIPSocket::Address ip;
        if (test.GetIpAddress(ip) && ip.IsValid() && !ip.IsAny()) {
@@ -2441,7 +2489,8 @@ void H323EndPoint::OnReceivedInitiateReturnError()
 {
 }
 
-#endif  // H323_H450
+// H323_H450
+#endif
 
 
 PBoolean H323EndPoint::ClearCall(const PString & token,
@@ -2991,7 +3040,8 @@ PBoolean H323EndPoint::OpenAudioChannel(H323Connection & /*connection*/,
   return FALSE;
 }
 
-#endif // H323_AUDIO_CODECS
+// H323_AUDIO_CODECS
+#endif
 
 
 #ifdef H323_VIDEO
@@ -3015,8 +3065,11 @@ PBoolean H323EndPoint::OpenExtendedVideoChannel(H323Connection & /*connection*/,
          << "ing: not yet implemented");
   return FALSE;
 }
-#endif // H323_H239
-#endif // NO_H323_VIDEO
+
+// H323_H239
+#endif
+// NO_H323_VIDEO
+#endif 
 
 
 void H323EndPoint::OnRTPStatistics(const H323Connection & /*connection*/,
@@ -3152,7 +3205,8 @@ H323ServiceControlSession * H323EndPoint::CreateServiceControlSession(const H225
   return NULL;
 }
 
-#endif // H323_H248
+// H323_H248
+#endif
 
 PBoolean H323EndPoint::OnConferenceInvite(PBoolean /*sending*/,                  
       const H323Connection * /*connection*/,  
@@ -3282,7 +3336,9 @@ H323_RFC4103Handler * H323EndPoint::CreateRFC4103ProtocolHandler(H323Channel::Di
 {
     return new H323_RFC4103Handler(dir, connection, sessionID);
 }
-#endif // H323_T140
+
+// H323_T140
+#endif
 
 #ifdef H323_FILE
 PBoolean H323EndPoint::OpenFileTransferSession( const H323FileTransferList & list,
@@ -3426,9 +3482,10 @@ void H323EndPoint::SetSoundChannelBufferDepth(unsigned depth)
   soundChannelBuffers = depth;
 }
 
-#endif  // P_AUDIO
-
-#endif  // H323_AUDIO_CODECS
+// P_AUDIO
+#endif
+// H323_AUDIO_CODECS
+#endif  
 
 
 PBoolean H323EndPoint::IsTerminal() const
@@ -3621,7 +3678,8 @@ PBoolean H323EndPoint::OnUPnPAvailable(const PString & device, const PIPSocket::
     return false;
 }
 
-#endif  // H323_UPnP
+// H323_UPnP
+#endif
 
 void H323EndPoint::InternalTranslateTCPAddress(PIPSocket::Address & localAddr, const PIPSocket::Address & remoteAddr, 
                                                const H323Connection * connection)
@@ -3658,7 +3716,9 @@ void H323EndPoint::InternalTranslateTCPAddress(PIPSocket::Address & localAddr, c
       }
    }
   else
-#endif // P_STUN
+
+// P_STUN
+#endif
      TranslateTCPAddress(localAddr, remoteAddr);
 }
 
@@ -3908,7 +3968,8 @@ PBoolean H323EndPoint::H46018IsEnabled()
 { 
     return m_h46018enabled; 
 }
-#endif  // H323_H46018
+// H323_H46018
+#endif
 
 #ifdef H323_H46019M
 void H323EndPoint::H46019MEnable(PBoolean enable)
@@ -3930,7 +3991,8 @@ PBoolean H323EndPoint::H46019MIsSending()
 {
     return (m_h46019Menabled && m_h46019Msend);
 }
-#endif  // H323_H46019M
+// H323_H46019M
+#endif
 
 #ifdef H323_H46023
 void H323EndPoint::H46023Enable(PBoolean enable) 
@@ -3953,7 +4015,8 @@ PBoolean H323EndPoint::H46023NatMethodSelection(const PString & method)
         PTRACE(4,"EP\tH.460.23 Not in use cannot verify media method");
         return true;
     }
-    PBoolean udpAvailable = h46023->IsUDPAvailable();  // Whether STUN reports UDP ports open
+    // Whether STUN reports UDP ports open
+    PBoolean udpAvailable = h46023->IsUDPAvailable();
 
 #ifdef H323_H46017
     if (RegisteredWithH46017()) {
@@ -3990,7 +4053,8 @@ PBoolean H323EndPoint::H46023NatMethodSelection(const PString & method)
     else
         return false;
 }
-#endif  // H323_H46023
+// H323_H46023
+#endif
 
 #ifdef H323_H46025
 void H323EndPoint::H46025Enable(PBoolean enable) 
@@ -4018,7 +4082,8 @@ bool H323EndPoint::H46025GPSInformation(H323_H46025_Message::Geodetic & /*gps*/)
 {
     return false;
 }
-#endif  // H323_H46025
+// H323_H46025
+#endif
 
 #ifdef H323_FRAMEBUFFER
 void H323EndPoint::EnableVideoFrameBuffer(PBoolean enable)
@@ -4028,9 +4093,11 @@ void H323EndPoint::EnableVideoFrameBuffer(PBoolean enable)
 
     // Increase the min Jitter delay
     if (enable)
-        minAudioJitterDelay = minAudioJitterDelay + 50;  // milliseconds
+        // milliseconds
+        minAudioJitterDelay = minAudioJitterDelay + 50;
     else
-        minAudioJitterDelay = minAudioJitterDelay - 50;  // milliseconds
+        // milliseconds
+        minAudioJitterDelay = minAudioJitterDelay - 50;
 
     useVideoBuffer = enable;
 }
@@ -4046,7 +4113,8 @@ void H323EndPoint::SetUPnP(PBoolean active)
 {
     m_UPnPenabled = active;
 }
-#endif  // H323_UPnP
+// H323_UPnP
+#endif
 
 #ifdef H323_TLS
 PBoolean H323EndPoint::TLS_SetCAFile(const PFilePath & caFile)
@@ -4126,7 +4194,8 @@ PBoolean H323EndPoint::InitialiseTransportContext()
     }
 
     SSL_load_error_strings();
-    OpenSSL_add_all_algorithms(); // needed for OpenSSL < 1.0
+    // needed for OpenSSL < 1.0
+    OpenSSL_add_all_algorithms();
     if (!RAND_status()) {
         PTRACE(3, "TLS\tPRNG needs seeding");
 #ifdef P_LINUX
@@ -4306,7 +4375,8 @@ void H323EndPoint::PresenceAuthorization(const OpalGloballyUniqueID & id,
     }
     PTRACE(4, s);
 }
-#endif  // H323_H460P
+// H323_H460P
+#endif
 
 #ifdef H323_H460PRE
 
