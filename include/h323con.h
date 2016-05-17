@@ -1844,9 +1844,9 @@ class H323Connection : public PObject
       int additionalBuffer     ///< Additional size of video decoder buffer
     );
 
-    /**Send a miscellaneous command on the associated H245 channel.
+    /** Send a miscellaneous command on the associated H245 channel.
     */
-    void SendLogicalChannelMiscCommand(
+    virtual void SendLogicalChannelMiscCommand(
       H323Channel & channel,  ///< Channel to send command for
       unsigned command        ///< Command code to send
     );
