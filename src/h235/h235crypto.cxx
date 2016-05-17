@@ -135,7 +135,7 @@ int EVP_EncryptUpdate_cts(EVP_CIPHER_CTX *ctx, unsigned char *out, int *outl,
     return 1;
 }
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 int EVP_EncryptFinal_ctsA(EVP_CIPHER_CTX *ctx, unsigned char *out, int *outl)
 #else
 int EVP_EncryptFinal_cts(EVP_CIPHER_CTX *ctx, unsigned char *out, int *outl)
@@ -436,7 +436,7 @@ PBYTEArray H235CryptoEngine::Encrypt(const PBYTEArray & _data, unsigned char * i
         if (!EVP_EncryptUpdate_cts(&m_encryptCtx, ciphertext.GetPointer(), &ciphertext_len, data.GetPointer(), data.GetSize())) {
             PTRACE(1, "H235\tEVP_EncryptUpdate_cts() failed");
         }
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         if (!EVP_EncryptFinal_ctsA(&m_encryptCtx, ciphertext.GetPointer() + ciphertext_len, &final_len)) {
 #else
         if (!EVP_EncryptFinal_cts(&m_encryptCtx, ciphertext.GetPointer() + ciphertext_len, &final_len)) {
@@ -484,7 +484,7 @@ PINDEX H235CryptoEngine::EncryptInPlace(const BYTE * inData, PINDEX inLength, BY
         if (!EVP_EncryptUpdate_cts(&m_encryptCtx, outData, &m_inSize, inData, inLength)) {
             PTRACE(1, "H235\tEVP_EncryptUpdate_cts() failed");
         }
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         if (!EVP_EncryptFinal_ctsA(&m_encryptCtx, outData + m_inSize, &m_outSize)) {
 #else
         if (!EVP_EncryptFinal_cts(&m_encryptCtx, outData + m_inSize, &m_outSize)) {

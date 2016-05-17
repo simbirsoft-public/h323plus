@@ -233,7 +233,7 @@ void H460_FeatureStd26::OnReceiveCallConnect_UUIE(const H225_FeatureDescriptor &
 
 ////////////////////////////////////////////////
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 PCREATE_NAT_PLUGIN(H46026, "H.460.26");
 #else
 PCREATE_NAT_PLUGIN(H46026);

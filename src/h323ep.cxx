@@ -1174,7 +1174,7 @@ void H323EndPoint::AddAllExtendedVideoCapabilities(PINDEX descriptorNum,
 
 void H323EndPoint::RemoveCapabilities(const PStringArray & codecNames)
 {
-#if PTLIB_VER > 2130
+#if PTLIB_VER > 2140
   capabilities.Remove("dummy", codecNames);
 #else
   capabilities.Remove(codecNames);
@@ -1481,7 +1481,7 @@ H235Authenticators H323EndPoint::CreateAuthenticators()
 
 
     for (i = 0; i < auths.GetSize(); ++i) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         H235Authenticator * Auth = H235Authenticator::CreateAuthenticator(auths[i]);
 #else
         H235Authenticator * Auth = PFactory<H235Authenticator>::CreateInstance(auths[i]);
@@ -1509,7 +1509,7 @@ H235Authenticators H323EndPoint::CreateEPAuthenticators()
   PString username;
   PString password;
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
      PStringList auths = H235Authenticator::GetAuthenticatorList();
       for (PINDEX i = 0; i < auths.GetSize(); ++i) {
         H235Authenticator * Auth = H235Authenticator::CreateAuthenticator(auths[i]);
@@ -3016,7 +3016,7 @@ PBoolean H323EndPoint::OpenAudioChannel(H323Connection & /*connection*/,
   if (soundChannel->Open(deviceName, isEncoding ? PSoundChannel::Recorder
                                                 : PSoundChannel::Player,
                          1, rate, 16
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
                          , NULL
 #endif
                          )) {
@@ -3436,7 +3436,7 @@ PBoolean H323EndPoint::SetSoundChannelRecordDevice(const PString & name)
 PBoolean H323EndPoint::SetSoundChannelPlayDriver(const PString & name)
 {
   PPluginManager & pluginMgr = PPluginManager::GetPluginManager(); 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
   PStringList list = pluginMgr.GetPluginsProviding("PSoundChannel", false);
 #else
   PStringList list = pluginMgr.GetPluginsProviding("PSoundChannel");
@@ -3458,7 +3458,7 @@ PBoolean H323EndPoint::SetSoundChannelPlayDriver(const PString & name)
 PBoolean H323EndPoint::SetSoundChannelRecordDriver(const PString & name)
 {
   PPluginManager & pluginMgr = PPluginManager::GetPluginManager(); 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
   PStringList list = pluginMgr.GetPluginsProviding("PSoundChannel", false);
 #else
   PStringList list = pluginMgr.GetPluginsProviding("PSoundChannel");
@@ -3601,7 +3601,7 @@ PNatMethod * H323EndPoint::GetPreferedNatMethod(const PIPSocket::Address & ip)
     const H323NatList & list = natMethods->GetNATList();
     if (list.GetSize() > 0) {
       for (PINDEX i=0; i < list.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         PString name = list[i].GetMethodName(); 
 #else
         PString name = list[i].GetName();
@@ -3701,7 +3701,7 @@ void H323EndPoint::InternalTranslateTCPAddress(PIPSocket::Address & localAddr, c
         } else {
             const H323NatList & list = natMethods->GetNATList();
               for (PINDEX i=0; i < list.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
                   PString name = list[i].GetMethodName(); 
 #else
                   PString name = list[i].GetName();

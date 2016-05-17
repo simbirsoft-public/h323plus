@@ -50,7 +50,7 @@
 
 static const char H235AuthenticatorPluginBaseClass[] = "H235Authenticator";
 
-#if PTLIB_VER >= 2110 && PTLIB_VER < 2130
+#if PTLIB_VER >= 2110 && PTLIB_VER < 2140
 
 template <> H235Authenticator * PDevicePluginFactory<H235Authenticator>::Worker::Create(const PDefaultPFactoryKey & type) const
 {
@@ -78,7 +78,7 @@ H235Authenticator::H235Authenticator()
 
 PStringArray H235Authenticator::GetAuthenticatorList()
 {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
     PPluginManager * plugMgr = &PPluginManager::GetPluginManager();
     return plugMgr->GetPluginsProviding(H235AuthenticatorPluginBaseClass, false);
 #else
@@ -97,7 +97,7 @@ H235Authenticator * H235Authenticator::CreateAuthenticator(const PString & authn
   if (pluginMgr == NULL)
     pluginMgr = &PPluginManager::GetPluginManager();
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
   return (H235Authenticator *)pluginMgr->CreatePlugin(authname, H235AuthenticatorPluginBaseClass);
 #else
   return (H235Authenticator *)pluginMgr->CreatePluginsDeviceByName(authname, H235AuthenticatorPluginBaseClass);

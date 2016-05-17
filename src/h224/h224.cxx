@@ -259,7 +259,7 @@ void H224_Handler::AttachH224Handler(OpalH224Handler * h224Handler)
 
 static const char H224HandlerBaseClass[] = "H224_Handler";
 
-#if PTLIB_VER < 2130
+#if PTLIB_VER < 2140
 #if PTLIB_VER >= 2110
 template <> H224_Handler * PDevicePluginFactory<H224_Handler>::Worker::Create(const PDefaultPFactoryKey & type) const
 #else
@@ -277,7 +277,7 @@ PStringArray H224_Handler::GetHandlerNames(PPluginManager * pluginMgr)
 {
   if (pluginMgr == NULL)
     pluginMgr = &PPluginManager::GetPluginManager();
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
   return pluginMgr->GetPluginsProviding(H224HandlerBaseClass, false);
 #else
   return pluginMgr->GetPluginsProviding(H224HandlerBaseClass);
@@ -289,7 +289,7 @@ H224_Handler * H224_Handler::CreateHandler(const PString & handlerName, PPluginM
   if (pluginMgr == NULL)
     pluginMgr = &PPluginManager::GetPluginManager();
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
   return (H224_Handler *)pluginMgr->CreatePlugin(handlerName, H224HandlerBaseClass);
 #else
   return (H224_Handler *)pluginMgr->CreatePluginsDeviceByName(handlerName, H224HandlerBaseClass);

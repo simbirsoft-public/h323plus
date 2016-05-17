@@ -1036,7 +1036,7 @@ HRESULT UPnPCallbacks::OnNewExternalIPAddress(const PString & extIPAddress)
 
 ////////////////////////////////////////////////////////////////////
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 PCREATE_NAT_PLUGIN(UPnP, "UPnP");
 #else
 PCREATE_NAT_PLUGIN(UPnP);
@@ -1065,7 +1065,7 @@ PNatMethod_UPnP::~PNatMethod_UPnP()
     }
 }
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 const char * PNatMethod_UPnP::MethodName()
 {
     return PPlugin_PNatMethod_UPnP::ServiceName();
