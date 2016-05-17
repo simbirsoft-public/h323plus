@@ -73,15 +73,15 @@
 template <class PAIR>
 class deleteDictionaryEntry {
 public:
-	void operator()(const PAIR & p) { delete p.second.second; }
+    void operator()(const PAIR & p) { delete p.second.second; }
 };
 
 
 template <class E>
 inline void deleteDictionaryEntries(const E & e)
 {
-	typedef typename E::value_type PT;
-	std::for_each(e.begin(), e.end(), deleteDictionaryEntry<PT>());
+    typedef typename E::value_type PT;
+    std::for_each(e.begin(), e.end(), deleteDictionaryEntry<PT>());
 }
 
 
@@ -368,14 +368,14 @@ template <class K, class D> class PSTLDictionary : public PObject,
 template <class PAIR>
 class deleteListEntry {
 public:
-	void operator()(const PAIR & p) { delete p.second; }
+    void operator()(const PAIR & p) { delete p.second; }
 };
 
 template <class E>
 inline void deleteListEntries(const E & e)
 {
-	typedef typename E::value_type PT;
-	std::for_each(e.begin(), e.end(), deleteListEntry<PT>() );
+    typedef typename E::value_type PT;
+    std::for_each(e.begin(), e.end(), deleteListEntry<PT>() );
 }
 
 
@@ -633,8 +633,8 @@ template <class D> class PSTLList : public PObject,
 
           PAssert(ref < this->size(), psprintf("Index out of Bounds ref: %u sz: %u",ref,this->size()));
           typename std::map< unsigned, D*, PSTLSortOrder>::const_iterator i = this->find(ref);
-		  if (i != this->end()) return i->second;  
-		  else return NULL;
+          if (i != this->end()) return i->second;  
+          else return NULL;
       };
 
 
@@ -816,10 +816,10 @@ public:
         Resume();
     }
 
-	PBoolean IsRunning() 
-	{
-		return m_threadRunning;
-	}
+    PBoolean IsRunning() 
+    {
+        return m_threadRunning;
+    }
 
     virtual void FrameOut(PBYTEArray & /*frame*/, PInt64 /*receiveTime*/, unsigned /*clock*/, PBoolean /*fup*/, PBoolean /*flow*/) {};
 

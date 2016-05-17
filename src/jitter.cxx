@@ -235,7 +235,7 @@ RTP_JitterBuffer::~RTP_JitterBuffer()
   {
     PTRACE(3, "RTP\tRemoving jitter buffer " << this << ' ' << jitterThread->GetThreadName());
     //PAssert(jitterThread->WaitForTermination(10000), "Jitter buffer thread did not terminate");
-	jitterThread->WaitForTermination(3000);
+    jitterThread->WaitForTermination(3000);
     delete jitterThread;
     jitterThread = NULL;
   }
@@ -492,7 +492,7 @@ PBoolean RTP_JitterBuffer::OnRead(RTP_JitterBuffer::Entry * & currentReadFrame, 
 
 void RTP_JitterBuffer::ResetFirstWrite()
 {
-	doneFirstWrite = FALSE;
+    doneFirstWrite = FALSE;
 }
 
 PBoolean RTP_JitterBuffer::ReadData(DWORD timestamp, RTP_DataFrame & frame)
@@ -748,10 +748,10 @@ PBoolean RTP_JitterBuffer::ReadData(DWORD timestamp, RTP_DataFrame & frame)
 
       }
 
-	// Now change the jitter time to cope with the new size
+    // Now change the jitter time to cope with the new size
     // unless already set to maxJitterTime
       if (newestTimestamp - currentWriteFrame->GetTimestamp() > currentJitterTime) 
-          currentJitterTime = newestTimestamp - currentWriteFrame->GetTimestamp();
+        currentJitterTime = newestTimestamp - currentWriteFrame->GetTimestamp();
 
       targetJitterTime = currentJitterTime;
       PTRACE(3, "RTP\tJitter buffer size increased to "
