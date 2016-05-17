@@ -108,7 +108,7 @@ PBoolean H460_FeatureStd18::OnSendGatekeeperRequest(H225_FeatureDescriptor & pdu
     const H323NatList & list = natMethods.GetNATList();
     if (list.GetSize() > 0) {
       for (PINDEX i=0; i < list.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
           PString name = list[i].GetMethodName(); 
 #else
           PString name = list[i].GetName();
@@ -360,7 +360,7 @@ void H460_FeatureStd19::EnableMultiplex()
     if (list.GetSize() > 0) {
       bool h24Active= false;
       for (PINDEX i=0; i < list.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
           PString name = list[i].GetMethodName(); 
 #else
           PString name = list[i].GetName();
@@ -375,7 +375,7 @@ void H460_FeatureStd19::EnableMultiplex()
           return;
 
       for (PINDEX i=0; i < list.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
           PString name = list[i].GetMethodName(); 
 #else
           PString name = list[i].GetName();

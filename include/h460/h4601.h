@@ -1194,7 +1194,7 @@ class H460_FeatureSet : public PObject
 
 /////////////////////////////////////////////////////////////////////
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 
 PCREATE_PLUGIN_DEVICE(H460_Feature);
 #define H460_FEATURE_EX(name, extra) \

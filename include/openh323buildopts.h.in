@@ -37,7 +37,7 @@
 #undef  PT_MINOR_VERSION
 #undef  PT_BUILD_NUMBER
 
-#if PT_MAJOR_VERSION == 2 && PT_MINOR_VERSION >= 13
+#if PT_MAJOR_VERSION == 2 && PT_MINOR_VERSION >= 14
 #include <ptlib_config.h>
 #else
 #include <ptbuildopts.h>

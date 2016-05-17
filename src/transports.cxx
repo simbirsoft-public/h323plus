@@ -1723,7 +1723,7 @@ PBoolean H323TransportTCP::ExtractPDU(const PBYTEArray & pdu, PINDEX & pduLen)
   return TRUE;
 }
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 int H323TransportTCP::ReadChar()
 {
   BYTE c;
@@ -2089,7 +2089,7 @@ PBoolean H323TransportUDP::Connect()
 #ifdef P_STUN
   PSTUNClient * stun = endpoint.GetSTUN(remoteAddress);
   if (stun != NULL) {
-#if (PTLIB_VER >= 2110) && (PTLIB_VER < 2130)
+#if (PTLIB_VER >= 2110) && (PTLIB_VER < 2140)
     if (stun->CreateSocket(PNatMethod::eComponent_Unknown,socket)) {
 #else
     if (stun->CreateSocket(socket)) {
@@ -2326,7 +2326,7 @@ PBoolean H323TransportUDP::DiscoverGatekeeper(H323Gatekeeper & gk,
 
 #ifdef P_STUN
       // Not explicitly multicast
-#if (PTLIB_VER >= 2110) && (PTLIB_VER < 2130)
+#if (PTLIB_VER >= 2110) && (PTLIB_VER < 2140)
       if (stun != NULL && stun->CreateSocket(PNatMethod::eComponent_Unknown,socket)) {
 #else
       if (stun != NULL && stun->CreateSocket(socket)) {

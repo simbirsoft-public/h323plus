@@ -31,7 +31,7 @@
 #include <ptlib/sound.h>
 #include <h323.h>
 
-#if PTLIB_VER < 2130
+#if PTLIB_VER < 2140
 #if !defined(P_USE_STANDARD_CXX_BOOL) && !defined(P_USE_INTEGER_BOOL)
     typedef int PBoolean;
 #endif

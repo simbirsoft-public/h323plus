@@ -49,7 +49,7 @@
 #error "gnugknat.cxx must be compiled without precompiled headers"
 #endif
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 PCREATE_NAT_PLUGIN(GnuGk, "GnuGk");
 #else
 PCREATE_NAT_PLUGIN(GnuGk);

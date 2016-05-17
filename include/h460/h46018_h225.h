@@ -345,7 +345,7 @@ class PNatMethod_H46019  : public H323NatMethod
     /**  GetMethodName
         Get the NAT method name 
     */
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
    virtual PCaselessString GetMethodName() const { return "H46019"; }
 #elif PTLIB_VER > 2120
    static PString GetNatMethodName() { return "H46019"; }
@@ -390,7 +390,7 @@ class PNatMethod_H46019  : public H323NatMethod
             const PIPSocket::Address & binding = PIPSocket::GetDefaultIpAny(),WORD localPort = 0)  { return false; }
     virtual void SetCredentials(const PString &, const PString &, const PString &) {}
 protected:
-#if PTLIB_VER < 2130
+#if PTLIB_VER < 2140
     virtual NatTypes InternalGetNatType(bool, const PTimeInterval &) { return UnknownNat; }
 #endif
 #if PTLIB_VER >= 2120

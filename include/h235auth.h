@@ -512,7 +512,7 @@ typedef H2351_Authenticator H235AuthProcedure1;  // Backwards interoperability
 
 //////////////////////////////////////////////////////////////////////////////
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 
 PCREATE_PLUGIN_DEVICE(H235Authenticator);
 #define H235SECURITY_EX(name,extra) \
