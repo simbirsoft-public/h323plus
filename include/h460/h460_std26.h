@@ -230,7 +230,7 @@ public:
      */
    virtual void Activate(bool act)  { active = act; }
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
    virtual PCaselessString GetMethodName() const { return "H46026"; }
 #elif PTLIB_VER > 2120
    static PString GetNatMethodName() { return "H46026"; }
@@ -274,7 +274,7 @@ public:
             const PIPSocket::Address & binding = PIPSocket::GetDefaultIpAny(),WORD localPort = 0)  { return false; }
     virtual void SetCredentials(const PString &, const PString &, const PString &) {}
 protected:
-#if PTLIB_VER < 2130
+#if PTLIB_VER < 2140
     virtual NatTypes InternalGetNatType(bool, const PTimeInterval &) { return UnknownNat; }
 #endif
 #if PTLIB_VER >= 2120

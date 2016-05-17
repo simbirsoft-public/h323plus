@@ -118,7 +118,7 @@ protected:
 
 /////////////////////////////////////////////////////////////////////
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 
 PCREATE_PLUGIN_DEVICE(H224_Handler);
 #define H224_HANDLER_EX(name, extra) \

@@ -88,7 +88,7 @@
 
 //////////////////////////////////////////////////////////////////////
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 PCREATE_NAT_PLUGIN(H46024, "H.460.24");
 #else
 PCREATE_NAT_PLUGIN(H46024);
@@ -275,7 +275,7 @@ PBoolean PNatMethod_H46024::CreateSocketPair(PUDPSocket * & socket1,
            muxSocket2 = new H46019MultiplexSocket(false);
            pairedPortInfo.currentPort = feat->GetEndPoint()->GetMultiplexPort()-1;
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
            if (!PSTUNClient::CreateSocketPair(muxSocket1->GetSubSocket(), muxSocket2->GetSubSocket(), binding, (PObject *)1)) 
 #else
            if (!PSTUNClient::CreateSocketPair(muxSocket1->GetSubSocket(), muxSocket2->GetSubSocket(), binding))
@@ -304,7 +304,7 @@ PBoolean PNatMethod_H46024::CreateSocketPair(PUDPSocket * & socket1,
     {
 #endif
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         if (!PSTUNClient::CreateSocketPair(socket1,socket2,binding, NULL))
 #else
         if (!PSTUNClient::CreateSocketPair(socket1,socket2,binding))
@@ -586,7 +586,7 @@ bool H460_FeatureStd23::AlternateNATMethod()
     H323NatList & natlist = EP->GetNatMethods().GetNATList();
 
     for (PINDEX i=0; i< natlist.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         PString methName = natlist[i].GetMethodName();
 #else
         PString methName = natlist[i].GetName();
@@ -841,7 +841,7 @@ PBoolean H460_FeatureStd24::IsNatSendAvailable()
    PBoolean available = false;
    PINDEX i=0;
    for (i=0; i< natlist.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         if (natlist[i].GetMethodName() == "H46024") break;
 #else
         if (natlist[i].GetName() == "H46024") break;
@@ -869,7 +869,7 @@ void H460_FeatureStd24::SetNATMethods(H46024NAT state)
     H323NatList & natlist = EP->GetNatMethods().GetNATList();
 
     for (PINDEX i=0; i< natlist.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         PString name = natlist[i].GetMethodName();
 #else
         PString name = natlist[i].GetName();
@@ -902,7 +902,7 @@ void H460_FeatureStd24::SetNATMethods(H46024NAT state)
 
    PTRACE(6,"Std24\tNAT Methods " << GetH460NATString(state));
    for (PINDEX i=0; i< natlist.GetSize(); i++) {
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
        PString name = natlist[i].GetMethodName();
 #else
        PString name = natlist[i].GetName();

@@ -1498,7 +1498,7 @@ PBoolean RTP_UDP::Open(PIPSocket::Address _localAddress,
     H323Connection::SessionInformation * info = 
          connection.BuildSessionInformation(GetSessionID());
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
     if (meth->CreateSocketPair(dataSocket, controlSocket, localAddress,(PObject *)info)) {
 #elif PTLIB_VER > 260
     if (meth->CreateSocketPair(dataSocket, controlSocket, localAddress,(void *)info)) {
@@ -1507,7 +1507,7 @@ PBoolean RTP_UDP::Open(PIPSocket::Address _localAddress,
 #endif
       dataSocket->GetLocalAddress(localAddress, localDataPort);
       controlSocket->GetLocalAddress(localAddress, localControlPort);
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
       PString name = meth->GetMethodName(); 
 #else
       PString name = meth->GetName();
@@ -1644,7 +1644,7 @@ PBoolean RTP_UDP::PseudoRead(int & selectStatus)
     if (!controlSocket || !dataSocket)
         return true;
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
     return (((H323UDPSocket*)controlSocket)->DoPseudoRead(selectStatus) || 
             ((H323UDPSocket*)dataSocket)->DoPseudoRead(selectStatus));
 #elif PTLIB_VER >= 290
@@ -1756,7 +1756,7 @@ RTP_Session::SendReceiveStatus RTP_UDP::ReadDataOrControlPDU(PUDPSocket & socket
 
       else if (remoteTransmitAddress != addr) {
 #ifdef H323_H46024A
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
           if (((H323UDPSocket&)socket).IsAlternateAddress(addr,port)) {
 #else
           if (socket.IsAlternateAddress(addr,port)) {

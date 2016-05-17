@@ -987,7 +987,7 @@ public:
 
 #endif  // H323_FRAMEBUFFER
 
-#if PTLIB_VER < 2130
+#if PTLIB_VER < 2140
 
 #define H323UDPSocket PUDPSocket
 
@@ -1012,7 +1012,7 @@ class H323UDPSocket : public PUDPSocket
 
 #endif // H323UDPSocket
 
-#if PTLIB_VER < 2130
+#if PTLIB_VER < 2140
 
 #define H323NatMethod   PNatMethod
 #define H323NatList     PNatList

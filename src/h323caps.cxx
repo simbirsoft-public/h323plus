@@ -3297,7 +3297,7 @@ void H323Capabilities::Remove(const PString & codecName)
     cap = FindCapability(codecName);
   }
 }
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
 void H323Capabilities::Remove(const PString & dummy, const PStringArray & codecNames)
 #else
 void H323Capabilities::Remove(const PStringArray & codecNames)
@@ -3786,7 +3786,7 @@ PBoolean H323Capabilities::SetVideoFrameSize(H323Capability::CapabilityFrameSize
                             genericCaps.AppendString(str);
                 }
             }
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
             Remove("",genericCaps);
 #else
             Remove(genericCaps);

@@ -60,7 +60,7 @@ class PNatMethod_H46024  : public PSTUNClient
 
         ~PNatMethod_H46024();
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         struct PortInfo {
         PortInfo(WORD port = 0)
         : basePort(port), maxPort(port), currentPort(port) {}
@@ -72,7 +72,7 @@ class PNatMethod_H46024  : public PSTUNClient
 #endif
 
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         virtual PCaselessString GetMethodName() const { return "H46024"; }
         virtual PString GetName() const { return GetMethodName(); }
 #elif PTLIB_VER > 2120
@@ -135,7 +135,7 @@ protected:
         void SetConnectionSockets(PUDPSocket * data,  PUDPSocket * control,  
                               H323Connection::SessionInformation * info );
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
         PortInfo singlePortInfo;
         PortInfo pairedPortInfo;
 #endif

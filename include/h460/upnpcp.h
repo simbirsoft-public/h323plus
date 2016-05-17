@@ -115,7 +115,7 @@ public:
 
    PBoolean OpenSocket(PUDPSocket & socket, PortInfo & portInfo, const PIPSocket::Address & binding) const;
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
    static const char * MethodName();
    virtual PCaselessString GetMethodName() const;
 #elif PTLIB_VER > 2120
@@ -171,7 +171,7 @@ public:
             const PIPSocket::Address & binding = PIPSocket::GetDefaultIpAny(),WORD localPort = 0)  { return false; }
     virtual void SetCredentials(const PString &, const PString &, const PString &) {}
 protected:
-#if PTLIB_VER < 2130
+#if PTLIB_VER < 2140
     virtual NatTypes InternalGetNatType(bool, const PTimeInterval &) { return UnknownNat; }
 #endif
 #if PTLIB_VER >= 2120

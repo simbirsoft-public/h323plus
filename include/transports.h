@@ -972,7 +972,7 @@ class H323TransportTCP : public H323TransportIP
       */
     virtual PBoolean IsListening() const;
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
    /** Read a single character from the channel. 
         Casting issue in PTLIB
      */

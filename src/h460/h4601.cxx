@@ -857,7 +857,7 @@ void H460_Feature::AttachConnection(H323Connection * _con)
 
 static const char H460FeaturePluginBaseClass[] = "H460_Feature";
 
-#if PTLIB_VER < 2130
+#if PTLIB_VER < 2140
 
 #if PTLIB_VER >= 2110
 template <> H460_Feature * PDevicePluginFactory<H460_Feature>::Worker::Create(const PDefaultPFactoryKey & type) const
@@ -878,7 +878,7 @@ PStringList H460_Feature::GetFeatureNames(PPluginManager * pluginMgr)
   if (pluginMgr == NULL)
     pluginMgr = &PPluginManager::GetPluginManager();
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
   return pluginMgr->GetPluginsProviding(H460FeaturePluginBaseClass,false);
 #else
   return pluginMgr->GetPluginsProviding(H460FeaturePluginBaseClass);
@@ -890,7 +890,7 @@ PStringList H460_Feature::GetFeatureFriendlyNames(const PString & feature, PPlug
   if (pluginMgr == NULL)
     pluginMgr = &PPluginManager::GetPluginManager();
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
   return pluginMgr->GetPluginDeviceNames(feature, H460FeaturePluginBaseClass);
 #else
   return pluginMgr->GetPluginsDeviceNames(feature, H460FeaturePluginBaseClass);
@@ -902,7 +902,7 @@ H460_Feature * H460_Feature::CreateFeature(const PString & featurename, int pduT
   if (pluginMgr == NULL)
     pluginMgr = &PPluginManager::GetPluginManager();
 
-#if PTLIB_VER >= 2130
+#if PTLIB_VER >= 2140
   return (H460_Feature *)pluginMgr->CreatePlugin(featurename, H460FeaturePluginBaseClass,pduType);
 #else
   return (H460_Feature *)pluginMgr->CreatePluginsDeviceByName(featurename, H460FeaturePluginBaseClass,pduType);
