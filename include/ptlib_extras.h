@@ -909,6 +909,24 @@ public:
         m_threadRunning = false;
     }
 
+    float CalculateClockRate(const unsigned int time_, const PInt64 now_)
+    {
+        const PInt64 denominator = (now_ - m_StartTimeStamp);
+        if (denominator > 0)
+        {
+            const float clockRate = float(time_ - m_frameStartTime)/denominator;
+            if (clockRate >= 40.0f && clockRate <= 100.0f)
+            {
+                return clockRate;
+            }
+        }
+
+        PTRACE(4, "RTPBUF\tErroneous ClockRate: Resetting...");
+        m_frameStartTime = time_;
+        m_StartTimeStamp = PTimer::Tick().GetMilliSeconds();
+        return 90.0f;
+    }
+
     virtual PBoolean FrameIn(unsigned seq,  unsigned time, PBoolean marker, unsigned payload, const PBYTEArray & frame)
     {
 
@@ -925,16 +943,12 @@ public:
         if (!m_frameStartTime) {
             m_frameStartTime = time;
             m_StartTimeStamp = PTimer::Tick().GetMilliSeconds();
-        } else if (marker && m_frameOutput) {
-            m_calcClockRate = (float)(time - m_frameStartTime)/(PTimer::Tick().GetMilliSeconds() - m_StartTimeStamp);
-            if (m_calcClockRate > 100 || m_calcClockRate < 40 || (m_calcClockRate == numeric_limits<unsigned int>::infinity( ))) {
-                PTRACE(4,"RTPBUF\tErroneous ClockRate: Resetting...");
-                m_calcClockRate = 90;
-                m_frameStartTime = time;
-                m_StartTimeStamp = PTimer::Tick().GetMilliSeconds();
-            }
         }
-            
+        else if (marker && m_frameOutput)
+        {
+            m_calcClockRate = CalculateClockRate(time, now);
+        }
+
         H323FRAME::Info info;
            info.m_sequence = seq;
            info.m_marker = marker;
