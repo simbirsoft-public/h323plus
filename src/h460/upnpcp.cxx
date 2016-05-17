@@ -299,8 +299,6 @@ UPnPThread::UPnPThread(PNatMethod_UPnP * nat)
     m_piCallbacks = NULL;
     m_piNewMapping = false;
     m_piShutdown = false;
-
-    Resume();
 }
 
 bool UPnPThread::Initialise()
@@ -1088,6 +1086,7 @@ void PNatMethod_UPnP::AttachEndPoint(H323EndPoint * _ep)
       ep->GetRtpIpPortBase(), ep->GetRtpIpPortMax());
 
   m_pUPnP = new UPnPThread(this);
+  m_pUPnP->Resume();
 
 }
 

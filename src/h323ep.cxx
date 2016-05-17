@@ -170,7 +170,7 @@ void tls_info_cb(const SSL * s, int where, int ret)
         PTRACE(6, "TLS\t" << str << ": " << SSL_state_string_long(s));
     } else if (where & SSL_CB_ALERT) {
         str = (where & SSL_CB_READ)?"Read":"Write";
-        PTRACE(6, "TLS\tSSL3 alert " <<	str << ": " << SSL_alert_type_string_long(ret) << ":" << SSL_alert_desc_string_long(ret));
+        PTRACE(6, "TLS\tSSL3 alert " << str << ": " << SSL_alert_type_string_long(ret) << ":" << SSL_alert_desc_string_long(ret));
     } else if (where & SSL_CB_EXIT) {
         if (ret == 0)
             PTRACE(6, str << ":failed in " << SSL_state_string_long(s));
@@ -255,8 +255,8 @@ H323_TLSContext::H323_TLSContext()
         m_context = NULL;
     }
 
-    m_context = SSL_CTX_new(SSLv23_method());	
-    SSL_CTX_set_options(m_context, SSL_OP_NO_SSLv2);	// remove unsafe SSLv2
+    m_context = SSL_CTX_new(SSLv23_method());
+    SSL_CTX_set_options(m_context, SSL_OP_NO_SSLv2);  // remove unsafe SSLv2
     SSL_CTX_set_mode(m_context, SSL_MODE_AUTO_RETRY); // handle re-negotiations automatically
 
 #if PTLIB_VER < 2120
@@ -397,7 +397,7 @@ PBoolean H323_TLSContext::Initialise()
         SSL_CTX_set_verify(m_context, SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT | SSL_VERIFY_CLIENT_ONCE, tls_verify_cb);
         PTRACE(4, "TLS\tInitialised: Peer Certificate required.");
     }
-	SSL_CTX_set_verify_depth(m_context, 5);
+        SSL_CTX_set_verify_depth(m_context, 5);
     return true;
 }
 
@@ -509,8 +509,6 @@ H225CallThread::H225CallThread(H323EndPoint & endpoint,
   {
     transport.AttachThread(this);
   }
-
-  Resume();
 }
 
 
@@ -551,7 +549,6 @@ H323ConnectionsCleaner::H323ConnectionsCleaner(H323EndPoint & ep)
             "H323 Cleaner"),
     endpoint(ep)
 {
-  Resume();
   stopFlag = FALSE;
 }
 
@@ -762,6 +759,7 @@ H323EndPoint::H323EndPoint()
 #endif
 
   connectionsCleaner = new H323ConnectionsCleaner(*this);
+  connectionsCleaner->Resume();
 
   srand((unsigned)time(NULL)+clock());
 
@@ -1887,7 +1885,8 @@ H323Connection * H323EndPoint::InternalMakeCall(const PString & trasferFromToken
       connection->ClearCall(reason);
   } else
 #endif
-      new H225CallThread(*this, *connection, *transport, alias, address);
+      H225CallThread * h225CallThread = new H225CallThread(*this, *connection, *transport, alias, address);
+      h225CallThread->Resume();
 
   return connection;
 }
@@ -2100,7 +2099,7 @@ PBoolean H323EndPoint::ParsePartyName(const PString & _remoteParty,
 
   PINDEX phash = _remoteParty.Find("#");
   if (phash != P_MAX_INDEX) {
-	remoteParty.Replace("#","%");
+    remoteParty.Replace("#","%");
     PTRACE(4, "H323\tAdjusted " << remoteParty);
   }
 
@@ -2323,7 +2322,7 @@ PBoolean H323EndPoint::ParsePartyName(const PString & _remoteParty,
       alias.FindRegEx(PRegularExpression("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$", PRegularExpression::Extended)) != P_MAX_INDEX || // IPv4
      (alias.Left(1) == "[" && alias.Right(1) == "]" && alias.FindRegEx(PRegularExpression("\\]:[0-9]+$", PRegularExpression::Extended)) != P_MAX_INDEX))) {  // IPv6
        H323TransportAddress test = alias;
-	   PIPSocket::Address ip;
+       PIPSocket::Address ip;
        if (test.GetIpAddress(ip) && ip.IsValid() && !ip.IsAny()) {
           // The alias was a valid internet address, use it as such
           alias = PString::Empty();
@@ -4127,7 +4126,7 @@ PBoolean H323EndPoint::InitialiseTransportContext()
     }
 
     SSL_load_error_strings();
-    OpenSSL_add_all_algorithms();	// needed for OpenSSL < 1.0
+    OpenSSL_add_all_algorithms(); // needed for OpenSSL < 1.0
     if (!RAND_status()) {
         PTRACE(3, "TLS\tPRNG needs seeding");
 #ifdef P_LINUX
@@ -4172,7 +4171,7 @@ void H323EndPoint::SetTLSMediaPolicy(H323TransportSecurity::Policy policy)
 }
 
 H323TransportSecurity * H323EndPoint::GetTransportSecurity() { 
-	return &m_transportSecurity; 
+    return &m_transportSecurity; 
 }
 
 #ifdef H323_H460P

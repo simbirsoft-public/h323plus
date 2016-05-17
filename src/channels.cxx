@@ -99,7 +99,6 @@ H323LogicalChannelThread::H323LogicalChannelThread(H323EndPoint & endpoint,
 {
   PTRACE(4, "LogChan\tStarting logical channel thread " << this);
   receiver = rx;
-  Resume();
 }
 
 
@@ -441,6 +440,7 @@ PBoolean H323UnidirectionalChannel::Start()
 
   PThread * thread = new H323LogicalChannelThread(endpoint, *this, receiver);
 
+  thread->Resume();
   if (receiver)
     receiveThread  = thread;
   else
@@ -468,6 +468,8 @@ PBoolean H323BidirectionalChannel::Start()
 {
   receiveThread  = new H323LogicalChannelThread(endpoint, *this, TRUE);
   transmitThread = new H323LogicalChannelThread(endpoint, *this, FALSE);
+  receiveThread->Resume();
+  transmitThread->Resume();
   return TRUE;
 }
 

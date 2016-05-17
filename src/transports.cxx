@@ -119,7 +119,6 @@ H225TransportThread::H225TransportThread(H323EndPoint & ep, H323Transport * t)
     transport(t)
 {
   useKeepAlive = ep.EnableH225KeepAlive();
-  Resume();
 }
 
 
@@ -193,7 +192,6 @@ H245TransportThread::H245TransportThread(H323EndPoint & endpoint,
       m_keepAlive.RunContinuous(KeepAliveInterval * 1000);
     }
   }
-  Resume();
 }
 
 
@@ -1179,7 +1177,8 @@ PBoolean H323Transport::HandleFirstSignallingChannelPDU(PThread * thread)
 
 void H323Transport::StartControlChannel(H323Connection & connection)
 {
-  new H245TransportThread(endpoint, connection, *this);
+  H245TransportThread * transportThread = new H245TransportThread(endpoint, connection, *this);
+  transportThread->Resume();
 }
 
 
@@ -1384,7 +1383,11 @@ void H323ListenerTCP::Main()
   while (listener.IsOpen()) {
     H323Transport * transport = Accept(PMaxTimeInterval);
     if (transport != NULL)
-      new H225TransportThread(endpoint, transport);
+    {
+      H225TransportThread * transportThread = new H225TransportThread(endpoint, transport);
+      transportThread->Resume();
+    }
+    
   }
 #ifdef P_SSL
   ERR_remove_state(0);
@@ -1810,7 +1813,7 @@ PBoolean H323TransportTCP::FinaliseSecurity(PSocket * socket)
 #if PTLIB_VER < 2120
     ssl_st * m_ssl = ssl;
 #endif
-    if (m_ssl && socket) {	
+    if (m_ssl && socket) {
         SSL_set_fd(m_ssl, socket->GetHandle());
         return true;
     }
@@ -1843,7 +1846,7 @@ PBoolean H323TransportTCP::SecureConnect()
                     PTRACE(1, "TLS\tSyscall error in SSL_connect() errno=" << errno);
                     switch (errno) {
                         case 0:
-                            ret = 1;	// done
+                            ret = 1; // done
                             break;
                         case EAGAIN:
                             break;
