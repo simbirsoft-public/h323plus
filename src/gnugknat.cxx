@@ -104,9 +104,6 @@ GNUGKTransportThread::GNUGKTransportThread(H323EndPoint & ep, GNUGKTransport * t
       Keep.SetNotifier(PCREATE_NOTIFIER(Ping));
       Keep.RunContinuous(keepAlive * 1000); 
    }
-
-// Start the Thread
-   Resume();
 }
 
 void GNUGKTransportThread::Ping(PTimer &, H323_INT)
@@ -366,7 +363,8 @@ PBoolean GNUGKTransport::CreateNewTransport()
 
     if (transport->Connect()) {
           PTRACE(3, "GNUGK\tConnected to " << transport->GetRemoteAddress());
-        new GNUGKTransportThread(transport->GetEndPoint(), transport,GNUGK_Feature::keepalive);
+        GNUGKTransportThread * thread = new GNUGKTransportThread(transport->GetEndPoint(), transport,GNUGK_Feature::keepalive);
+        thread->Resume();
         if (transport->IsConnectionLost())
              transport->ConnectionLost(FALSE);
         return TRUE;
@@ -431,7 +429,8 @@ PBoolean GNUGK_Feature::CreateNewTransport()
 
     if (transport->Connect()) {
      PTRACE(3, "GNUGK\tConnected to " << transport->GetRemoteAddress());
-        new GNUGKTransportThread(transport->GetEndPoint(), transport,keepalive);
+        GNUGKTransportThread * thread = new GNUGKTransportThread(transport->GetEndPoint(), transport,keepalive);
+        thread->Resume();
         return TRUE;
     }
 

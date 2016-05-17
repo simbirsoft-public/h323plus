@@ -242,9 +242,6 @@ H46017TransportThread::H46017TransportThread(H323EndPoint & ep, H46017Transport 
 {  
 
    transport->AttachThread(this);
-
-// Start the Thread
-   Resume();
 }
 
 void H46017TransportThread::Main()
@@ -703,10 +700,11 @@ PBoolean H46017Handler::CreateNewTransport(const H323TransportSecurity & securit
     curtransport->SetRemoteAddress(remoteAddress);
 
     if (curtransport->Connect()) {
-      PTRACE(3, "H46017\tConnected to " << curtransport->GetRemoteAddress());
-        new H46017TransportThread(curtransport->GetEndPoint(), curtransport);
-        openTransport = true;
-        return TRUE;
+         PTRACE(3, "H46017\tConnected to " << curtransport->GetRemoteAddress());
+         H46017TransportThread * transportThread = new H46017TransportThread(curtransport->GetEndPoint(), curtransport);
+         transportThread->Resume();
+         openTransport = true;
+         return TRUE;
     } 
      
     PTRACE(3, "H46017\tTransport Failure " << curtransport->GetRemoteAddress());

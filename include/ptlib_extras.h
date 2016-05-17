@@ -73,15 +73,15 @@
 template <class PAIR>
 class deleteDictionaryEntry {
 public:
-	void operator()(const PAIR & p) { delete p.second.second; }
+    void operator()(const PAIR & p) { delete p.second.second; }
 };
 
 
 template <class E>
 inline void deleteDictionaryEntries(const E & e)
 {
-	typedef typename E::value_type PT;
-	std::for_each(e.begin(), e.end(), deleteDictionaryEntry<PT>());
+    typedef typename E::value_type PT;
+    std::for_each(e.begin(), e.end(), deleteDictionaryEntry<PT>());
 }
 
 
@@ -368,14 +368,14 @@ template <class K, class D> class PSTLDictionary : public PObject,
 template <class PAIR>
 class deleteListEntry {
 public:
-	void operator()(const PAIR & p) { delete p.second; }
+    void operator()(const PAIR & p) { delete p.second; }
 };
 
 template <class E>
 inline void deleteListEntries(const E & e)
 {
-	typedef typename E::value_type PT;
-	std::for_each(e.begin(), e.end(), deleteListEntry<PT>() );
+    typedef typename E::value_type PT;
+    std::for_each(e.begin(), e.end(), deleteListEntry<PT>() );
 }
 
 
@@ -633,8 +633,8 @@ template <class D> class PSTLList : public PObject,
 
           PAssert(ref < this->size(), psprintf("Index out of Bounds ref: %u sz: %u",ref,this->size()));
           typename std::map< unsigned, D*, PSTLSortOrder>::const_iterator i = this->find(ref);
-		  if (i != this->end()) return i->second;  
-		  else return NULL;
+          if (i != this->end()) return i->second;  
+          else return NULL;
       };
 
 
@@ -816,10 +816,10 @@ public:
         Resume();
     }
 
-	PBoolean IsRunning() 
-	{
-		return m_threadRunning;
-	}
+    PBoolean IsRunning() 
+    {
+        return m_threadRunning;
+    }
 
     virtual void FrameOut(PBYTEArray & /*frame*/, PInt64 /*receiveTime*/, unsigned /*clock*/, PBoolean /*fup*/, PBoolean /*flow*/) {};
 
@@ -909,6 +909,24 @@ public:
         m_threadRunning = false;
     }
 
+    float CalculateClockRate(const unsigned int time_, const PInt64 now_)
+    {
+        const PInt64 denominator = (now_ - m_StartTimeStamp);
+        if (denominator > 0)
+        {
+            const float clockRate = float(time_ - m_frameStartTime)/denominator;
+            if (clockRate >= 40.0f && clockRate <= 100.0f)
+            {
+                return clockRate;
+            }
+        }
+
+        PTRACE(4, "RTPBUF\tErroneous ClockRate: Resetting...");
+        m_frameStartTime = time_;
+        m_StartTimeStamp = PTimer::Tick().GetMilliSeconds();
+        return 90.0f;
+    }
+
     virtual PBoolean FrameIn(unsigned seq,  unsigned time, PBoolean marker, unsigned payload, const PBYTEArray & frame)
     {
 
@@ -925,16 +943,12 @@ public:
         if (!m_frameStartTime) {
             m_frameStartTime = time;
             m_StartTimeStamp = PTimer::Tick().GetMilliSeconds();
-        } else if (marker && m_frameOutput) {
-            m_calcClockRate = (float)(time - m_frameStartTime)/(PTimer::Tick().GetMilliSeconds() - m_StartTimeStamp);
-            if (m_calcClockRate > 100 || m_calcClockRate < 40 || (m_calcClockRate == numeric_limits<unsigned int>::infinity( ))) {
-                PTRACE(4,"RTPBUF\tErroneous ClockRate: Resetting...");
-                m_calcClockRate = 90;
-                m_frameStartTime = time;
-                m_StartTimeStamp = PTimer::Tick().GetMilliSeconds();
-            }
         }
-            
+        else if (marker && m_frameOutput)
+        {
+            m_calcClockRate = CalculateClockRate(time, now);
+        }
+
         H323FRAME::Info info;
            info.m_sequence = seq;
            info.m_marker = marker;

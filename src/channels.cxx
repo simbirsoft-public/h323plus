@@ -49,7 +49,8 @@
 #endif
 
 #define MAX_PAYLOAD_TYPE_MISMATCHES 8
-#define RTP_TRACE_DISPLAY_RATE 16000 // 2 seconds
+// 2 seconds
+#define RTP_TRACE_DISPLAY_RATE 16000
 
 
 class H323LogicalChannelThread : public PThread
@@ -99,7 +100,6 @@ H323LogicalChannelThread::H323LogicalChannelThread(H323EndPoint & endpoint,
 {
   PTRACE(4, "LogChan\tStarting logical channel thread " << this);
   receiver = rx;
-  Resume();
 }
 
 
@@ -112,7 +112,8 @@ void H323LogicalChannelThread::Main()
     channel.Transmit();
 
 #ifdef _WIN32_WCE
-    Sleep(0); // Relinquish control to other thread
+    // Relinquish control to other thread
+    Sleep(0);
 #endif
 }
 
@@ -440,7 +441,8 @@ PBoolean H323UnidirectionalChannel::Start()
     return FALSE;
 
   PThread * thread = new H323LogicalChannelThread(endpoint, *this, receiver);
-
+  thread->Resume();
+  
   if (receiver)
     receiveThread  = thread;
   else
@@ -467,7 +469,11 @@ H323Channel::Directions H323BidirectionalChannel::GetDirection() const
 PBoolean H323BidirectionalChannel::Start()
 {
   receiveThread  = new H323LogicalChannelThread(endpoint, *this, TRUE);
+  receiveThread->Resume();
+  
   transmitThread = new H323LogicalChannelThread(endpoint, *this, FALSE);
+  transmitThread->Resume();
+  
   return TRUE;
 }
 
@@ -853,7 +859,9 @@ void H323_RTPChannel::Transmit()
   // Get parameters from the codec on time and data sizes
   PBoolean isAudio = mediaFormat.NeedsJitterBuffer();
   unsigned framesInPacket = capability->GetTxFramesInPacket();
-  if (framesInPacket > 8) framesInPacket = 1;  // TODO: Resolve issue with G.711 20ms
+  // TODO: Resolve issue with G.711 20ms
+  if (framesInPacket > 8)
+    framesInPacket = 1;
   unsigned maxSampleSize = mediaFormat.GetFrameSize();
   unsigned maxSampleTime = mediaFormat.GetFrameTime();
 
@@ -931,8 +939,9 @@ void H323_RTPChannel::Transmit()
       codecReadAnalysis->AddSample(rtpTimestamp);
 #endif
 
+    // Act as though silent/no video
     if (paused)
-      length = 0; // Act as though silent/no video
+      length = 0; 
 
     // Handle marker bit for audio codec
     if (isAudio) {
